@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robeos | Vision intelligence for packaging lines</title>
+<meta name="description" content="Robeos builds vision systems for packaging lines. VeriSeal checks the seal on every bag. PackSentry counts bags and tells you which packer filled each one.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Robeos">
+<meta property="og:description" content="Vision intelligence for packaging lines. VeriSeal thermal seal inspection. PackSentry bag tracking and packer attribution.">
+<meta property="og:image" content="https://www.robeos.com/img/veriseal_poster.jpg">
+<meta property="og:url" content="https://www.robeos.com/">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Manrope:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap">
+<style>
+/* Layout: single-theme dark page. The thermal seal image is the hero and bleeds light into the page. Product sections carry their blade colour. */
+:root{
+  --bg:#070b12; --bg-2:#0d131f; --fg:#e9eef7; --muted:#8e9bb3; --line:#1d2535;
+  --teal:#19c4b8; --orange:#ff8a3d; --magenta:#c026d3;
+  --display:"Chakra Petch",system-ui,sans-serif; --body:"Manrope",system-ui,sans-serif; --brand:"Space Grotesk","Chakra Petch",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.04;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(2.6rem,7vw,5.2rem);font-weight:700;text-transform:uppercase}
+h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;text-transform:uppercase}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--display);font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.brandname{font-family:var(--brand);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:.6em;padding:.85em 1.4em;border-radius:4px;font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.08em;font-size:.9rem;text-decoration:none;border:1px solid transparent}
+.btn-teal{background:var(--teal);color:#04120f}
+.btn-line{border-color:rgba(255,255,255,.25);color:var(--fg);background:rgba(255,255,255,.03)}
+.btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(7,11,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:16px;flex-wrap:wrap;padding-block:10px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:.06em;text-transform:uppercase}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-family:var(--display);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;padding:.5em .8em;border-radius:3px}
+nav a:hover,nav a:focus-visible{color:var(--fg);outline:none;background:rgba(255,255,255,.06)}
+
+/* hero */
+.hero{position:relative;min-height:72vh;display:grid;align-items:end;isolation:isolate;overflow:hidden}
+.hero .bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center;filter:contrast(1.05);transform:scale(1.04);background:#000}
+.hero .fade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(7,11,18,.25) 0%,rgba(7,11,18,.5) 45%,var(--bg) 100%)}
+.hero .glow{position:absolute;z-index:-1;width:60vw;height:60vw;max-width:800px;max-height:800px;border-radius:50%;filter:blur(90px);opacity:.45;pointer-events:none}
+.hero .g1{background:var(--teal);left:-20vw;top:-10vw}
+.hero .g2{background:var(--orange);right:-20vw;bottom:-20vw}
+.hero .wrap{padding-block:120px 60px;width:100%}
+.hero .tag{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:.35em .9em;font-family:var(--display);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;background:rgba(7,11,18,.5)}
+.hero .tag i{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange)}
+.hero h1{margin-top:22px;max-width:14ch;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero p.lead{margin-top:20px;max-width:34em;font-size:1.15rem;color:#c9d3e6}
+.hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+
+/* product cards */
+.products{padding-block:80px;border-top:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+.pcard{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-2);min-width:0;display:grid;grid-template-rows:auto 1fr}
+.pcard .img{aspect-ratio:16/9;background:#000 center/cover no-repeat;position:relative;display:grid;place-items:center}
+.pcard .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--bg-2) 100%);pointer-events:none}
+.pcard .img svg{width:92%;height:auto;position:relative;z-index:1}
+.pcard .body{padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px}
+.pcard .brandname{font-size:2rem;color:var(--c)}
+.pcard p{color:var(--muted)}
+.pcard .go{margin-top:auto;font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;color:var(--c);text-decoration:none}
+.pcard .go:hover{text-decoration:underline}
+.pcard .edge{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c);box-shadow:0 0 18px var(--c);z-index:2}
+
+/* product sections */
+.product{padding-block:90px;border-top:1px solid var(--line)}
+.product .head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+@media (max-width:860px){.products .head{grid-template-columns:1fr!important}}
+.product .lock{display:flex;align-items:center;gap:14px}
+.product .lock .brandname{font-size:clamp(2.2rem,4.5vw,3.2rem);color:var(--c);line-height:1}
+.product .head h2{margin-top:14px;font-size:clamp(1.6rem,3vw,2.3rem)}
+.product .head p{margin-top:12px;color:var(--muted);font-size:1.05rem;max-width:34em}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:56px}
+.pair figure{margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#000}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:12px 14px;font-family:var(--display);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.ok{color:var(--teal)} .bad{color:var(--orange)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+
+.feature{padding-top:20px;border-top:1px solid var(--line);min-width:0}
+.feature .n{display:block;width:34px;height:3px;background:var(--c);box-shadow:0 0 12px var(--c);margin-bottom:14px}
+.feature p{margin-top:8px;color:var(--muted);font-size:.97rem}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:56px}
+.step{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:20px;min-width:0}
+.step .k{font-family:var(--display);font-weight:700;font-size:1.6rem;color:var(--c);line-height:1;font-variant-numeric:tabular-nums}
+.step h3{font-size:1rem;margin-top:10px}
+.step p{margin-top:6px;font-size:.92rem;color:var(--muted)}
+.diagram{margin-top:56px;border:1px solid var(--line);border-radius:10px;background:var(--bg-2);padding:28px;overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:640px;height:auto}
+.diagram .cap{font-family:var(--display);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+
+/* video */
+.vid{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:0 30px 80px rgba(0,0,0,.6);max-width:100%}
+.vid video{display:block;width:100%;height:auto}
+.vid .lab{position:absolute;left:14px;bottom:14px;background:rgba(7,11,18,.8);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:.35em .9em;font-family:var(--display);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--fg);display:flex;align-items:center;gap:8px}
+.vid .lab i{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange)}
+.pcard .img video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* inspection HUD */
+.hud{position:absolute;inset:0;pointer-events:none;font-family:var(--display)}
+.hud .roi{position:absolute;left:6%;top:38%;width:36%;height:36%;border:2px solid rgba(25,196,184,.55);border-radius:4px;transition:border-color .15s,box-shadow .15s}
+.hud .roi::before{content:"SEAL ZONE";position:absolute;left:0;top:-1.6em;font-size:.7rem;letter-spacing:.18em;color:rgba(25,196,184,.85)}
+.hud.armed .roi{border-color:var(--teal);box-shadow:0 0 0 2px rgba(25,196,184,.25),0 0 24px rgba(25,196,184,.45)}
+.hud .verdict{position:absolute;right:14px;top:14px;padding:.45em 1em;border-radius:6px;font-weight:700;font-size:clamp(1rem,2.4vw,1.6rem);letter-spacing:.12em;text-transform:uppercase;background:rgba(7,11,18,.7);border:1px solid rgba(255,255,255,.15);color:var(--muted);transition:all .15s}
+.hud.good .verdict{background:var(--teal);color:#04120f;border-color:var(--teal);box-shadow:0 0 30px rgba(25,196,184,.5)}
+.hud .count{position:absolute;right:14px;bottom:14px;display:flex;gap:14px;background:rgba(7,11,18,.75);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:.5em .9em;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.hud .count b{color:var(--fg);font-weight:600}
+.hud .count .g b{color:var(--teal)}
+@media (max-width:520px){.hud .count{display:none}}
+/* fit rows */
+.fit{padding-block:70px;border-top:1px solid var(--line)}
+.fit .row{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:6px;padding:.6em 1em;font-family:var(--display);font-size:.85rem;letter-spacing:.06em;background:var(--bg-2)}
+.chip svg{width:18px;height:18px;flex:none}
+.inline-cta{margin-top:40px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.inline-cta span{color:var(--muted);font-size:.95rem}
+/* install */
+.install{padding-block:90px;border-top:1px solid var(--line)}
+.install .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.install .ph{border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.6);aspect-ratio:4/3;background:url(img/enclosures-wide.jpg) center/cover;max-width:100%}
+.install p{margin-top:16px;color:var(--muted);max-width:32em}
+.list{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.list li{display:flex;gap:12px;align-items:flex-start}
+.list li::before{content:"";flex:none;width:10px;height:10px;margin-top:.45em;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal)}
+
+/* about */
+.about{padding-block:90px;border-top:1px solid var(--line);background:var(--bg-2)}
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.about p{margin-top:16px;color:var(--muted);max-width:34em}
+.facts{display:grid;gap:0;margin:0}
+.fact{display:grid;grid-template-columns:140px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.fact dt{font-family:var(--display);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding-top:.2em}
+.fact dd{margin:0}
+
+/* contact */
+.cta{padding-block:100px;position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.cta .glow{position:absolute;width:70vw;height:70vw;max-width:900px;max-height:900px;border-radius:50%;filter:blur(110px);opacity:.28;background:var(--magenta);right:-30vw;top:-30vw;pointer-events:none}
+.cta .wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.cta p{margin-top:16px;color:var(--muted);max-width:32em}
+.chan{display:grid;gap:12px}
+.ch{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:16px 18px;flex-wrap:wrap}
+.ch .l{font-family:var(--display);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.ch .v{font-family:var(--display);font-size:1.25rem;user-select:all}
+.ch button{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.25);border-radius:4px;padding:.45em .9em;font-family:var(--display);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.ch button:hover{background:rgba(255,255,255,.08)}
+.ch button:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:22px}
+footer .social{display:flex;gap:14px;align-items:center}
+footer .social a{color:var(--muted);display:inline-flex;padding:4px;border-radius:4px}
+footer .social a:hover,footer .social a:focus-visible{color:var(--fg);outline:none;background:rgba(255,255,255,.06)}
+
+@media (max-width:860px){.fit .row,.grid2,.product .head,.install .wrap,.about .wrap,.cta .wrap{grid-template-columns:1fr}.features{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.hero .wrap{padding-block:90px 44px}.hero{min-height:60vh}.product,.install,.about,.cta{padding-block:64px}}
+@media (max-width:460px){.pair,.steps{grid-template-columns:1fr}.fact{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}.hero .bg{animation:drift 18s ease-in-out infinite alternate}@keyframes drift{from{transform:scale(1.04) translateY(0)}to{transform:scale(1.1) translateY(-2%)}}}
+</style>
+<style>html{color-scheme:dark}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<header><div class="wrap">
+  <a class="logo" href="#top" aria-label="Robeos home"><img src="img/robeos-wordmark-white.png" alt="Robeos" style="height:30px;width:auto;display:block"></a>
+  <nav aria-label="Main"><a href="#veriseal">VeriSeal</a><a href="#packsentry">PackSentry</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+</div></header>
+
+<main id="top">
+<section class="hero">
+  <video class="bg" autoplay muted loop playsinline poster="img/seal-hero.jpg" aria-hidden="true"><source src="img/seal_hero_loop.mp4" type="video/mp4"></video><div class="fade"></div><div class="glow g1"></div><div class="glow g2"></div>
+  <div class="wrap">
+    <img src="img/robeos-wordmark-white.png" alt="Robeos" style="height:clamp(44px,6vw,72px);width:auto;display:block;filter:drop-shadow(0 2px 20px rgba(0,0,0,.6))">
+    <h1>Vision intelligence for <em>packaging</em> lines</h1>
+    <p class="lead">Robeos builds vision systems that mount on packaging lines and talk to the line's PLC. VeriSeal checks the seal on every bag. PackSentry follows every bag from the packer through the checkweigher and metal detector, so each result points back to the machine that caused it.</p>
+    <div class="actions"><a class="btn btn-teal" href="#veriseal">VeriSeal</a><a class="btn btn-line" href="#packsentry">PackSentry</a></div>
+  </div>
+</section>
+
+<section class="product" id="veriseal" style="--c:var(--teal)">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="lock"><img src="img/veriseal-lockup-on-dark.svg" alt="VeriSeal" style="height:64px;width:auto;display:block"></div>
+        <h2>Thermal seal inspection</h2>
+      </div>
+      <p>Right after a bag is sealed, the seal is hotter than the rest of the bag. VeriSeal's thermal camera photographs that heat line on every bag. A continuous line is a good seal. A gap, a thin spot or product caught in the seam is a bad one. The result goes to the PLC as a good or bad signal, and the plant decides what happens next: a stack light, a line stop or a reject.</p>
+    </div>
+
+    <div class="pair">
+      <figure><img src="img/seal-good.jpg" alt="Thermal image of a good valve bag seal: one continuous bright line"><figcaption><span class="ok">Good seal</span><span>Continuous heat line</span></figcaption></figure>
+      <figure><img src="img/seal-bad.jpg" alt="Thermal image of a bad valve bag seal: a break in the line"><figcaption><span class="bad">Bad seal</span><span>Break in the line</span></figcaption></figure>
+    </div>
+
+    <div class="vid" style="margin-top:24px"><video id="vsvid" autoplay muted loop playsinline poster="img/veriseal_poster.jpg" aria-label="VeriSeal thermal camera view on a production line: bags pass the camera and each seal is checked"><source src="img/veriseal_loop.mp4" type="video/mp4"></video>
+      <div class="hud" id="vshud" aria-hidden="true"><div class="roi"></div><div class="verdict" id="vsverdict">Waiting</div><div class="count"><span>Inspected <b id="vsn">0</b></span><span class="g">Good <b id="vsg">0</b></span></div></div>
+      <span class="lab"><i style="background:var(--teal);box-shadow:0 0 10px var(--teal)"></i>Camera view on a production line. Each bag checked as it passes.</span></div>
+
+    <div class="features">
+      <div class="feature"><span class="n"></span><h3>Trained on your product</h3><p>During commissioning the model learns what a good seal looks like for the product and bag you run. After that it flags seals that do not match.</p></div>
+      <div class="feature"><span class="n"></span><h3>PLC output</h3><p>Good or bad on a discrete output. Alarm, stop or reject is up to the line's controls.</p></div>
+      <div class="feature"><span class="n"></span><h3>Operator screen</h3><p>Each inspection shows as it happens. If results drift, the screen proposes a tuning change in plain words. The operator accepts or rejects it. No numbers to type.</p></div>
+      <div class="feature"><span class="n"></span><h3>Enclosure options</h3><p>Standard, or a rated build for classified dust areas such as flour, sugar and mineral powders.</p></div>
+      <div class="feature"><span class="n"></span><h3>Valve and open mouth baggers</h3><p>The camera mounts at the sealer discharge. Units are set up on our bench before shipping, so site work is mounting, wiring and a training run.</p></div>
+      <div class="feature"><span class="n"></span><h3>Records</h3><p>Every inspection is logged, so seal results can be reviewed by shift, day or product.</p></div>
+    </div>
+    <div class="inline-cta"><a class="btn btn-teal" href="#contact">Ask about VeriSeal</a><span>Send the bagger model and the product you run.</span></div>
+  </div>
+</section>
+
+<section class="product" id="packsentry" style="--c:var(--orange)">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="lock"><img src="img/packsentry-lockup-on-dark.svg" alt="PackSentry" style="height:64px;width:auto;display:block"></div>
+        <h2>Bag tracking and packer attribution</h2>
+      </div>
+      <p>On a line with several packers, the checkweigher and the metal detector each give a verdict on a bag, but neither knows which packer filled it. PackSentry puts a camera at each spout and along the conveyors. It counts each bag as it leaves its packer and follows it down the line, so every weight reading, every metal detect and every bag lost between stations is tied to the packer it came from.</p>
+    </div>
+
+    <div class="vid" style="margin-top:56px"><video autoplay muted loop playsinline poster="img/packsentry_poster.jpg" aria-label="PackSentry on a two packer test line: each bag is boxed and labelled by its packer at the spouts and again on the roller table"><source src="img/packsentry_loop.mp4" type="video/mp4"></video><span class="lab"><i></i>Two packer test line. Each bag carries its packer from the spout to the roller table.</span></div>
+    <div class="diagram" style="margin-top:24px">
+      <svg viewBox="0 0 1000 300" aria-label="PackSentry line diagram: cameras at each packer spout, on the outfeed and transit conveyors and at the checkweigher, attributing each bag to its packer">
+        <defs><filter id="gl2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <g fill="none" stroke="#2a3447" stroke-width="2">
+          <rect x="30" y="30" width="130" height="70" rx="6"/><rect x="30" y="115" width="130" height="70" rx="6"/><rect x="30" y="200" width="130" height="70" rx="6"/>
+          <path d="M160 65 H250 Q290 65 290 105 V150"/><path d="M160 150 H290"/><path d="M160 235 H250 Q290 235 290 195 V150"/>
+          <path d="M290 150 H520"/><rect x="520" y="120" width="110" height="60" rx="6"/><path d="M630 150 H760"/><rect x="760" y="120" width="110" height="60" rx="6"/><path d="M870 150 H970"/>
+        </g>
+        <g fill="#8e9bb3" font-family="Chakra Petch,sans-serif" font-size="14" letter-spacing="2">
+          <text x="95" y="70" text-anchor="middle">PACKER 1</text><text x="95" y="155" text-anchor="middle">PACKER 2</text><text x="95" y="240" text-anchor="middle">PACKER 3</text>
+          <text x="405" y="140" text-anchor="middle">OUTFEED</text><text x="575" y="155" text-anchor="middle">CHECKWEIGHER</text><text x="815" y="155" text-anchor="middle">METAL DET.</text>
+        </g>
+        <g fill="#ff8a3d" filter="url(#gl2)"><circle cx="185" cy="45" r="7"/><circle cx="185" cy="130" r="7"/><circle cx="185" cy="215" r="7"/><circle cx="405" cy="120" r="7"/><circle cx="700" cy="120" r="7"/></g>
+        <g fill="#ff8a3d" font-family="Chakra Petch,sans-serif" font-size="11" letter-spacing="2"><text x="200" y="49">SPOUT CAM</text><text x="200" y="134">SPOUT CAM</text><text x="200" y="219">SPOUT CAM</text><text x="420" y="124">OUTFEED CAM</text><text x="715" y="124">TRANSIT CAM</text></g>
+        <g><rect x="330" y="143" width="14" height="14" rx="2" fill="#19c4b8"/><rect x="450" y="143" width="14" height="14" rx="2" fill="#19c4b8"/><rect x="690" y="143" width="14" height="14" rx="2" fill="#ff8a3d"/><rect x="920" y="143" width="14" height="14" rx="2" fill="#19c4b8"/></g>
+        <g font-family="Chakra Petch,sans-serif" font-size="11" letter-spacing="2"><text x="337" y="180" text-anchor="middle" fill="#19c4b8">P2</text><text x="457" y="180" text-anchor="middle" fill="#19c4b8">P1</text><text x="697" y="180" text-anchor="middle" fill="#ff8a3d">P3 LIGHT</text><text x="927" y="180" text-anchor="middle" fill="#19c4b8">P1</text></g>
+        <text x="500" y="290" text-anchor="middle" fill="#8e9bb3" font-family="Manrope,sans-serif" font-size="14">Each bag is tagged with its packer at the spout and carried to the checkweigher. A light verdict points straight back to Packer 3.</text>
+      </svg>
+    </div>
+
+    <div class="features">
+      <div class="feature"><span class="n"></span><h3>Every bag counted</h3><p>Spout cameras see each bag drop. The target is every bag, not a sample.</p></div>
+      <div class="feature"><span class="n"></span><h3>Checkweigher feedback by packer</h3><p>The checkweigher keeps its own targets and verdicts. PackSentry adds which packer the bag came from, so under and over counts show per packer.</p></div>
+      <div class="feature"><span class="n"></span><h3>Metal detector events by packer</h3><p>A metal detect is traced back to the packer that filled the bag instead of being a line-level event.</p></div>
+      <div class="feature"><span class="n"></span><h3>Bags lost between stations</h3><p>Counts at each station along the line show where bags go missing: at the turnover, on the incline or before the checkweigher.</p></div>
+      <div class="feature"><span class="n"></span><h3>Line board</h3><p>One screen shows each packer and each conveyor stage with counts, bags per hour and losses. Built for the control room PC, not a phone.</p></div>
+      <div class="feature"><span class="n"></span><h3>Up to five cameras</h3><p>PoE cameras on one edge computer at the line. Setup is the line name, the packer count and a name for each camera.</p></div>
+    </div>
+    <div class="inline-cta"><a class="btn btn-line" style="border-color:var(--orange);color:var(--orange)" href="#contact">Ask about PackSentry</a><span>Best fit: two or more packers feeding one checkweigher.</span></div>
+  </div>
+</section>
+
+<section class="fit">
+  <div class="wrap">
+    <div class="row">
+      <div>
+        <div class="eyebrow">Where it fits</div>
+        <h3 style="margin-top:8px">Industries</h3>
+        <div class="chips">
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20h16M6 20V9l6-5 6 5v11M10 20v-6h4v6"/></svg>Flour milling</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/></svg>Food ingredients</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 20l3-12h8l3 12zM9 8V5h6v3"/></svg>Sugar and starch</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>Minerals and chemicals</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12c3-6 15-6 18 0-3 6-15 6-18 0z"/><circle cx="12" cy="12" r="2.5"/></svg>Seed and feed</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4zM4 11h16"/></svg>Pet food</span>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">&nbsp;</div>
+        <h3 style="margin-top:8px">Bag types</h3>
+        <div class="chips">
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="16" rx="1.5"/><path d="M6 8h5v3H6"/></svg>Valve bags</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="6" width="12" height="14" rx="1.5"/><path d="M6 6l1.5-2h9L18 6"/></svg>Open mouth bags</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="16" rx="1.5"/><path d="M6 18h12"/></svg>Pinch bottom bags</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 5h10l1 15H6zM9 5V3h6v2"/></svg>Pouches</span>
+          <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9h16M4 15h16M9 4v16M15 4v16"/></svg>Paper and poly</span>
+        </div>
+      </div>
+    </div>
+    <div class="inline-cta"><a class="btn btn-teal" href="#contact">Contact us</a><span>Not sure which one applies? Send a photo of the bagger discharge and we will tell you.</span></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2 style="margin-top:10px">Robeos</h2>
+      <p>Robeos started in 2020 in South Jordan, Utah. We build vision systems for bagging and packaging lines and install them together with the machine builder and the plant. The people who write the software are the same people who commission it on the floor.</p>
+    </div>
+    <dl class="facts">
+      <div class="fact"><dt>Founded</dt><dd>2020</dd></div>
+      <div class="fact"><dt>Based in</dt><dd>South Jordan, Utah, United States</dd></div>
+      <div class="fact"><dt>Products</dt><dd><span class="brandname">VeriSeal</span> seal inspection. <span class="brandname">PackSentry</span> bag counting and packer attribution.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Contact</div>
+      <h2 style="margin-top:10px">Tell us about your line</h2>
+      <p>Bagger model, the product you run and a photo of the discharge area if you have one. We will say whether VeriSeal or PackSentry applies and what it would take to try it.</p>
+    </div>
+    <div class="chan">
+      <div class="ch"><div><div class="l">Email</div><div class="v" id="email">info@robeos.com</div></div><button type="button" data-copy="email">Copy</button></div>
+      <div class="ch"><div><div class="l">Phone</div><div class="v" id="phone">+1 385 515 5521</div></div><button type="button" data-copy="phone">Copy</button></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>&copy; 2026 Robeos Corp. South Jordan, Utah</span><span class="social"><a href="https://www.youtube.com/@robeoscorp.2344" target="_blank" rel="noopener" aria-label="Robeos on YouTube" title="YouTube"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.2zM9.8 15.1V8.9l6 3.1-6 3.1z"/></svg></a><a href="https://www.linkedin.com/company/robeos/" target="_blank" rel="noopener" aria-label="Robeos on LinkedIn" title="LinkedIn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2zM8 19H5V9.5h3V19zM6.5 8.2a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5s-1.8 1.2-1.8 2.4V19h-3V9.5h2.9v1.3h.1a3.2 3.2 0 0 1 2.8-1.5c3 0 3.5 2 3.5 4.5V19z"/></svg></a></span><span>VeriSeal and PackSentry are trademarks of Robeos Corp.</span></div></footer>
+
+<script>
+(function(){
+  var v=document.getElementById('vsvid'),h=document.getElementById('vshud'),vd=document.getElementById('vsverdict'),n=document.getElementById('vsn'),g=document.getElementById('vsg');
+  if(!v||!h)return;
+  // bag passes measured from the footage: [arm start, verdict time, release]
+  var passes=[[0.9,1.7,2.6],[6.3,7.1,8.0],[12.7,13.4,14.3]];
+  var fired=[false,false,false],last=0,N=0,G=0;
+  function tick(){
+    var t=v.currentTime;
+    if(t<last-0.5){fired=[false,false,false];}
+    last=t;var armed=false,good=false;
+    for(var i=0;i<passes.length;i++){var p=passes[i];
+      if(t>=p[0]&&t<p[2])armed=true;
+      if(t>=p[1]&&!fired[i]){fired[i]=true;N++;G++;n.textContent=N;g.textContent=G;}
+      if(t>=p[1]&&t<p[1]+1.4)good=true;}
+    h.classList.toggle('armed',armed);h.classList.toggle('good',good);
+    vd.textContent=good?'Good seal':(armed?'Reading':'Waiting');
+    requestAnimationFrame(tick);
+  }
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){vd.textContent='Good seal';h.classList.add('good');return;}
+  requestAnimationFrame(tick);
+})();
+document.querySelectorAll('button[data-copy]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var el=document.getElementById(b.dataset.copy);var t=el.textContent.trim();
+    function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1500);}
+    function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+    try{navigator.clipboard.writeText(t).then(done).catch(fallback);}catch(e){fallback();}
+  });
+});
+</script>
+
+</body>
+</html>
